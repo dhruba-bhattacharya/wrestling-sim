@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ultimate Wrestling Simulator - Booker Mode</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body class="game-page">
+  <main class="shell">
+    <section class="panel booker-panel enter-anim">
+      <div class="topline">
+        <div>
+          <p class="company">ALL ELITE WRESTLING</p>
+          <h2 id="meta-week">WEEK 1</h2>
+          <p id="meta-event" class="muted">AEW Dynamite</p>
+        </div>
+        <div class="menu-row top-actions">
+          <button id="refresh-btn" class="icon-btn">⟳</button>
+          <button id="play-btn" class="primary-btn">PLAY SHOW</button>
+          <button id="reset-btn" class="icon-btn danger">⭮</button>
+        </div>
+      </div>
+
+      <nav class="menu-row">
+        <span class="active">BOOK SHOW</span>
+        <span>MANAGE ROSTER</span>
+        <span>NEWS</span>
+      </nav>
+
+      <section>
+        <div id="meta-kpis" class="kpi-row"></div>
+      </section>
+
+      <section>
+        <div class="slot-title">AUTO BOOKED CARD</div>
+        <div id="booking-grid" class="booking-grid"></div>
+      </section>
+
+      <section class="bottom-grid">
+        <div>
+          <div class="slot-title">FEUD OPTIONS</div>
+          <div id="feud-options" class="list"></div>
+        </div>
+        <div>
+          <div class="slot-title">ACTIVE RIVALRIES</div>
+          <ul id="rivalries" class="list rivalry-list"></ul>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="/game.js"></script>
+</body>
+</html>

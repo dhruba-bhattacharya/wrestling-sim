@@ -30,9 +30,8 @@ class GameHandler(BaseHTTPRequestHandler):
             return {}
 
     def do_GET(self) -> None:
-        if self.path == "/" or self.path == "/index.html":
-            index_path = STATIC_DIR / "index.html"
-            body = index_path.read_bytes()
+        if self.path == "/" or self.path == "/home.html":
+            body = (STATIC_DIR / "home.html").read_bytes()
             self.send_response(HTTPStatus.OK)
             self.send_header("Content-Type", "text/html; charset=utf-8")
             self.send_header("Content-Length", str(len(body)))
@@ -40,22 +39,20 @@ class GameHandler(BaseHTTPRequestHandler):
             self.wfile.write(body)
             return
 
-        if self.path == "/styles.css":
-            css = (STATIC_DIR / "styles.css").read_bytes()
+        static_routes = {
+            "/game.html": ("game.html", "text/html; charset=utf-8"),
+            "/styles.css": ("styles.css", "text/css; charset=utf-8"),
+            "/home.js": ("home.js", "application/javascript; charset=utf-8"),
+            "/game.js": ("game.js", "application/javascript; charset=utf-8"),
+        }
+        if self.path in static_routes:
+            file_name, content_type = static_routes[self.path]
+            body = (STATIC_DIR / file_name).read_bytes()
             self.send_response(HTTPStatus.OK)
-            self.send_header("Content-Type", "text/css; charset=utf-8")
-            self.send_header("Content-Length", str(len(css)))
+            self.send_header("Content-Type", content_type)
+            self.send_header("Content-Length", str(len(body)))
             self.end_headers()
-            self.wfile.write(css)
-            return
-
-        if self.path == "/app.js":
-            js = (STATIC_DIR / "app.js").read_bytes()
-            self.send_response(HTTPStatus.OK)
-            self.send_header("Content-Type", "application/javascript; charset=utf-8")
-            self.send_header("Content-Length", str(len(js)))
-            self.end_headers()
-            self.wfile.write(js)
+            self.wfile.write(body)
             return
 
         if self.path == "/api/state":
