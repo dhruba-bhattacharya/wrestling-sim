@@ -3,33 +3,23 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ultimate Wrestling Simulator</title>
+  <title>Ultimate Wrestling Simulator - Booker Mode</title>
   <link rel="stylesheet" href="/styles.css" />
 </head>
-<body>
+<body class="game-page">
   <main class="shell">
-    <section class="panel splash-panel">
-      <div class="brand-wrap">
-        <p class="tiny">Ultimate Wrestling Experience</p>
-        <h1 class="logo"><span>SUPER</span>BOOKED</h1>
-        <p class="subtitle">WRESTLING BOOKING SIMULATOR</p>
-      </div>
-      <div class="control-row">
-        <button id="refresh-btn" class="icon-btn">⟳</button>
-        <button id="play-btn" class="primary-btn">PLAY SHOW</button>
-        <button id="reset-btn" class="icon-btn danger">⭮</button>
-      </div>
-      <p class="version">v0.2</p>
-    </section>
-
-    <section class="panel booker-panel">
+    <section class="panel booker-panel enter-anim">
       <div class="topline">
         <div>
           <p class="company">ALL ELITE WRESTLING</p>
           <h2 id="meta-week">WEEK 1</h2>
           <p id="meta-event" class="muted">AEW Dynamite</p>
         </div>
-        <div class="menu">☰</div>
+        <div class="menu-row top-actions">
+          <button id="refresh-btn" class="icon-btn">⟳</button>
+          <button id="play-btn" class="primary-btn">PLAY SHOW</button>
+          <button id="reset-btn" class="icon-btn danger">⭮</button>
+        </div>
       </div>
 
       <nav class="menu-row">
@@ -60,6 +50,6 @@
     </section>
   </main>
 
-  <script src="/app.js"></script>
+  <script src="/game.js"></script>
 </body>
 </html>
