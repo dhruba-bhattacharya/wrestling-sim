@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ultimate Wrestling Simulator</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Ultimate Wrestling Simulator</h1>
+    <div id="meta"></div>
+    <div class="actions">
+      <button id="refresh-btn">Refresh</button>
+      <button id="play-btn">Play Next Week</button>
+      <button id="reset-btn" class="danger">Reset Save</button>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <h2>Feud Setup</h2>
+      <div id="feud-options"></div>
+    </section>
+
+    <section>
+      <h2>Active Rivalries</h2>
+      <ul id="rivalries"></ul>
+    </section>
+
+    <section>
+      <h2>Latest Show Result</h2>
+      <div id="show-result" class="card muted">Play a week to generate a card.</div>
+    </section>
+
+    <section>
+      <h2>Roster Snapshot</h2>
+      <table>
+        <thead>
+          <tr><th>Name</th><th>Pop</th><th>Stamina</th><th>Alignment</th><th>Injured Weeks</th></tr>
+        </thead>
+        <tbody id="roster"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

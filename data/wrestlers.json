@@ -1,0 +1,8 @@
+[
+  {"Name":"Kenny Omega","ID":"w1","Faction":"The Elite","Popularity":9.2,"Skills":9.5,"Charisma":8.8,"MicSkills":8.4,"Division":"M","Alignment":"Face"},
+  {"Name":"MJF","ID":"w2","Faction":null,"Popularity":9.4,"Skills":8.8,"Charisma":9.6,"MicSkills":9.7,"Division":"M","Alignment":"Heel"},
+  {"Name":"Hangman Page","ID":"w3","Faction":null,"Popularity":8.7,"Skills":9.0,"Charisma":8.2,"MicSkills":8.0,"Division":"M","Alignment":"Face"},
+  {"Name":"Swerve Strickland","ID":"w4","Faction":"Mogul Embassy","Popularity":8.9,"Skills":8.9,"Charisma":8.7,"MicSkills":8.3,"Division":"M","Alignment":"Heel"},
+  {"Name":"Toni Storm","ID":"w5","Faction":null,"Popularity":8.6,"Skills":8.5,"Charisma":9.0,"MicSkills":8.9,"Division":"F","Alignment":"Heel"},
+  {"Name":"Hikaru Shida","ID":"w6","Faction":null,"Popularity":8.4,"Skills":9.1,"Charisma":7.8,"MicSkills":7.4,"Division":"F","Alignment":"Face"}
+]

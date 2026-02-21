@@ -1,0 +1,34 @@
+:root { color-scheme: dark; }
+body {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  background: #0b0d14;
+  color: #f4f7ff;
+}
+header, main { max-width: 1000px; margin: 0 auto; padding: 16px; }
+header { border-bottom: 1px solid #2c3142; }
+h1 { margin: 0 0 8px 0; }
+.actions { display: flex; gap: 8px; margin-top: 10px; }
+button {
+  border: 1px solid #3f455b;
+  background: #1a1f2e;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+button:hover { background: #252c41; }
+button.danger { border-color: #8f3b4f; }
+section {
+  background: #121726;
+  border: 1px solid #252b3c;
+  border-radius: 12px;
+  padding: 12px;
+  margin-top: 14px;
+}
+.card { background: #1a1f2e; border-radius: 10px; padding: 10px; }
+.muted { color: #aab0c3; }
+.feud-option { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+ul { margin: 0; padding-left: 16px; }
+table { width: 100%; border-collapse: collapse; }
+th, td { border-bottom: 1px solid #2a3145; padding: 6px; text-align: left; font-size: 14px; }
