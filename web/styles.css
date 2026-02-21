@@ -60,6 +60,18 @@ button {
   background: #15171d;
   color: #fff;
   cursor: pointer;
+  font-weight: 600;
+}
+button:hover { transform: translateY(-1px); }
+button.primary { background: linear-gradient(145deg, #6280ff, #5372ff); border: none; }
+button.ghost { background: #1a2234; }
+button.danger { background: #3a1421; border-color: #7a2940; }
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(120px, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
 }
 .primary-btn {
   padding: 11px 36px;
