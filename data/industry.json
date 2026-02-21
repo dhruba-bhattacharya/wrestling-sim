@@ -1,0 +1,4 @@
+[
+  {"name":"Cody Rhodes","ID":"i1","Popularity":9.3,"Skills":8.9,"Charisma":9.4,"MicSkills":9.0,"Division":"M","Alignment":"Face","salaries":3000000,"weeksleft":20},
+  {"name":"Sasha Banks","ID":"i2","Popularity":8.8,"Skills":8.7,"Charisma":8.9,"MicSkills":8.5,"Division":"F","Alignment":"Face","salaries":2200000,"weeksleft":12}
+]
