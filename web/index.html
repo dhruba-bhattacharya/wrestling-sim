@@ -7,40 +7,56 @@
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
-  <header>
-    <h1>Ultimate Wrestling Simulator</h1>
-    <div id="meta"></div>
-    <div class="actions">
-      <button id="refresh-btn">Refresh</button>
-      <button id="play-btn">Play Next Week</button>
-      <button id="reset-btn" class="danger">Reset Save</button>
-    </div>
-  </header>
-
-  <main>
-    <section>
-      <h2>Feud Setup</h2>
-      <div id="feud-options"></div>
+  <main class="shell">
+    <section class="panel splash-panel">
+      <div class="brand-wrap">
+        <p class="tiny">Ultimate Wrestling Experience</p>
+        <h1 class="logo"><span>SUPER</span>BOOKED</h1>
+        <p class="subtitle">WRESTLING BOOKING SIMULATOR</p>
+      </div>
+      <div class="control-row">
+        <button id="refresh-btn" class="icon-btn">⟳</button>
+        <button id="play-btn" class="primary-btn">PLAY SHOW</button>
+        <button id="reset-btn" class="icon-btn danger">⭮</button>
+      </div>
+      <p class="version">v0.2</p>
     </section>
 
-    <section>
-      <h2>Active Rivalries</h2>
-      <ul id="rivalries"></ul>
-    </section>
+    <section class="panel booker-panel">
+      <div class="topline">
+        <div>
+          <p class="company">ALL ELITE WRESTLING</p>
+          <h2 id="meta-week">WEEK 1</h2>
+          <p id="meta-event" class="muted">AEW Dynamite</p>
+        </div>
+        <div class="menu">☰</div>
+      </div>
 
-    <section>
-      <h2>Latest Show Result</h2>
-      <div id="show-result" class="card muted">Play a week to generate a card.</div>
-    </section>
+      <nav class="menu-row">
+        <span class="active">BOOK SHOW</span>
+        <span>MANAGE ROSTER</span>
+        <span>NEWS</span>
+      </nav>
 
-    <section>
-      <h2>Roster Snapshot</h2>
-      <table>
-        <thead>
-          <tr><th>Name</th><th>Pop</th><th>Stamina</th><th>Alignment</th><th>Injured Weeks</th></tr>
-        </thead>
-        <tbody id="roster"></tbody>
-      </table>
+      <section>
+        <div id="meta-kpis" class="kpi-row"></div>
+      </section>
+
+      <section>
+        <div class="slot-title">AUTO BOOKED CARD</div>
+        <div id="booking-grid" class="booking-grid"></div>
+      </section>
+
+      <section class="bottom-grid">
+        <div>
+          <div class="slot-title">FEUD OPTIONS</div>
+          <div id="feud-options" class="list"></div>
+        </div>
+        <div>
+          <div class="slot-title">ACTIVE RIVALRIES</div>
+          <ul id="rivalries" class="list rivalry-list"></ul>
+        </div>
+      </section>
     </section>
   </main>
 

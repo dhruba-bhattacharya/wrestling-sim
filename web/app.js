@@ -13,8 +13,15 @@ async function postJSON(url, payload = {}) {
 }
 
 function renderState(state) {
-  document.getElementById("meta").textContent =
-    `Week ${state.week} • ${state.event} • Hype ${state.hype} • Viewers ${state.viewers.toLocaleString()}`;
+  document.getElementById("meta-week").textContent = `WEEK ${state.week}`;
+  document.getElementById("meta-event").textContent = state.event;
+
+  const kpis = document.getElementById("meta-kpis");
+  kpis.innerHTML = `
+    <article class="kpi"><small>HYPE</small><strong>${state.hype}</strong></article>
+    <article class="kpi"><small>VIEWERS</small><strong>${state.viewers.toLocaleString()}</strong></article>
+    <article class="kpi"><small>ROSTER</small><strong>${state.top_wrestlers.length}</strong></article>
+  `;
 
   const rivalryList = document.getElementById("rivalries");
   rivalryList.innerHTML = "";
@@ -23,31 +30,42 @@ function renderState(state) {
   } else {
     for (const rivalry of state.active_rivalries) {
       const li = document.createElement("li");
-      li.textContent = `${rivalry.rivalry_type}: ${rivalry.rivals.join(" vs ")} (Level ${rivalry.level})`;
+      li.textContent = `${rivalry.rivalry_type}: ${rivalry.rivals.join(" vs ")} (L${rivalry.level}, idle ${rivalry.weeks_not_featured}w)`;
       rivalryList.appendChild(li);
     }
-  }
-
-  const roster = document.getElementById("roster");
-  roster.innerHTML = "";
-  for (const wrestler of state.top_wrestlers) {
-    const row = document.createElement("tr");
-    row.innerHTML = `<td>${wrestler.name}</td><td>${wrestler.popularity}</td><td>${wrestler.stamina}</td><td>${wrestler.alignment}</td><td>${wrestler.injured_weeks}</td>`;
-    roster.appendChild(row);
   }
 }
 
 function renderResult(result) {
-  const container = document.getElementById("show-result");
-  const matches = result.matches.map((m) => `<li>${m.participants.join(" vs ")} (${m.type}) — ⭐ ${m.rating}</li>`).join("");
-  const segments = result.segments.map((s) => `<li>${s.type}: ${s.participants.join(", ")} — ⭐ ${s.rating}</li>`).join("");
-  container.classList.remove("muted");
-  container.innerHTML = `
-    <strong>${result.event} (Week ${result.week})</strong><br/>
-    Show Rating: <b>${result.show_rating}</b><br/>
-    <h4>Matches</h4><ul>${matches || "<li>None</li>"}</ul>
-    <h4>Segments</h4><ul>${segments || "<li>None</li>"}</ul>
-  `;
+  const grid = document.getElementById("booking-grid");
+  grid.innerHTML = "";
+
+  const slots = [];
+  for (const match of result.matches) {
+    slots.push({
+      title: match.type,
+      body: match.participants.join(" vs "),
+      rating: `⭐ ${match.rating}${match.title_match ? " • TITLE" : ""}`,
+    });
+  }
+  for (const segment of result.segments) {
+    slots.push({
+      title: segment.type,
+      body: segment.participants.join(", "),
+      rating: `⭐ ${segment.rating}`,
+    });
+  }
+
+  while (slots.length < 8) {
+    slots.push({ title: "OPEN SLOT", body: "Add Match / Segment", rating: "" });
+  }
+
+  for (const slot of slots.slice(0, 10)) {
+    const card = document.createElement("article");
+    card.className = "slot";
+    card.innerHTML = `<div><b>${slot.title}</b><div>${slot.body}</div><div class="muted">${slot.rating}</div></div>`;
+    grid.appendChild(card);
+  }
 }
 
 async function renderFeudOptions() {
@@ -61,7 +79,7 @@ async function renderFeudOptions() {
     const label = document.createElement("span");
     label.textContent = `${option.rivalry_type}: ${option.names[0]} vs ${option.names[1]}`;
     const btn = document.createElement("button");
-    btn.textContent = "Start Feud";
+    btn.textContent = "ACCEPT";
     btn.onclick = async () => {
       await postJSON("/api/create-rivalry", { rivalry_type: option.rivalry_type, ids: option.ids });
       await refresh();
@@ -72,7 +90,7 @@ async function renderFeudOptions() {
   }
 
   if (!data.options.length) {
-    container.innerHTML = "<div class='muted'>No options available this week.</div>";
+    container.innerHTML = "<div class='muted'>No options this week.</div>";
   }
 }
 
@@ -92,8 +110,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   };
   document.getElementById("reset-btn").onclick = async () => {
     await postJSON("/api/reset");
-    document.getElementById("show-result").textContent = "Play a week to generate a card.";
-    document.getElementById("show-result").classList.add("muted");
+    document.getElementById("booking-grid").innerHTML = "";
     await refresh();
   };
 
