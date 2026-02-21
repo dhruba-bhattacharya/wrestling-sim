@@ -7,42 +7,51 @@
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
-  <header>
-    <h1>Ultimate Wrestling Simulator</h1>
-    <div id="meta"></div>
-    <div class="actions">
-      <button id="refresh-btn">Refresh</button>
-      <button id="play-btn">Play Next Week</button>
-      <button id="reset-btn" class="danger">Reset Save</button>
-    </div>
-  </header>
+  <div class="app-shell">
+    <header class="topbar panel">
+      <div>
+        <p class="eyebrow">All Elite Wrestling</p>
+        <h1>Ultimate Wrestling Simulator</h1>
+      </div>
+      <div class="actions">
+        <button id="refresh-btn" class="ghost">Refresh</button>
+        <button id="play-btn" class="primary">Simulate Next Show</button>
+        <button id="reset-btn" class="danger">Reset Save</button>
+      </div>
+    </header>
 
-  <main>
-    <section>
-      <h2>Feud Setup</h2>
-      <div id="feud-options"></div>
-    </section>
+    <section id="meta" class="kpi-grid"></section>
 
-    <section>
-      <h2>Active Rivalries</h2>
-      <ul id="rivalries"></ul>
-    </section>
+    <main class="layout-grid">
+      <section class="panel span-2">
+        <div class="section-title-row">
+          <h2>Feud Setup</h2>
+          <p class="muted">Start rivalries to influence auto-booking.</p>
+        </div>
+        <div id="feud-options" class="stack"></div>
+      </section>
 
-    <section>
-      <h2>Latest Show Result</h2>
-      <div id="show-result" class="card muted">Play a week to generate a card.</div>
-    </section>
+      <section class="panel">
+        <h2>Active Rivalries</h2>
+        <ul id="rivalries" class="stack"></ul>
+      </section>
 
-    <section>
-      <h2>Roster Snapshot</h2>
-      <table>
-        <thead>
-          <tr><th>Name</th><th>Pop</th><th>Stamina</th><th>Alignment</th><th>Injured Weeks</th></tr>
-        </thead>
-        <tbody id="roster"></tbody>
-      </table>
-    </section>
-  </main>
+      <section class="panel span-3">
+        <h2>Latest Show Result</h2>
+        <div id="show-result" class="card muted">Simulate a show to generate a full card.</div>
+      </section>
+
+      <section class="panel span-3">
+        <h2>Roster Snapshot</h2>
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Popularity</th><th>Stamina</th><th>Alignment</th><th>Injury</th></tr>
+          </thead>
+          <tbody id="roster"></tbody>
+        </table>
+      </section>
+    </main>
+  </div>
 
   <script src="/app.js"></script>
 </body>

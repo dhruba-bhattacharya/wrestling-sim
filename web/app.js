@@ -13,8 +13,13 @@ async function postJSON(url, payload = {}) {
 }
 
 function renderState(state) {
-  document.getElementById("meta").textContent =
-    `Week ${state.week} • ${state.event} • Hype ${state.hype} • Viewers ${state.viewers.toLocaleString()}`;
+  const meta = document.getElementById("meta");
+  meta.innerHTML = `
+    <article class="kpi"><div class="kpi-label">Week</div><div class="kpi-value">${state.week}</div></article>
+    <article class="kpi"><div class="kpi-label">Next Event</div><div class="kpi-value">${state.event}</div></article>
+    <article class="kpi"><div class="kpi-label">Hype</div><div class="kpi-value">${state.hype}</div></article>
+    <article class="kpi"><div class="kpi-label">Viewers</div><div class="kpi-value">${state.viewers.toLocaleString()}</div></article>
+  `;
 
   const rivalryList = document.getElementById("rivalries");
   rivalryList.innerHTML = "";
@@ -23,7 +28,7 @@ function renderState(state) {
   } else {
     for (const rivalry of state.active_rivalries) {
       const li = document.createElement("li");
-      li.textContent = `${rivalry.rivalry_type}: ${rivalry.rivals.join(" vs ")} (Level ${rivalry.level})`;
+      li.innerHTML = `${rivalry.rivalry_type}: ${rivalry.rivals.join(" vs ")} <span class="badge">Level ${rivalry.level}</span> <span class="badge">Idle ${rivalry.weeks_not_featured} wk</span>`;
       rivalryList.appendChild(li);
     }
   }
@@ -39,7 +44,7 @@ function renderState(state) {
 
 function renderResult(result) {
   const container = document.getElementById("show-result");
-  const matches = result.matches.map((m) => `<li>${m.participants.join(" vs ")} (${m.type}) — ⭐ ${m.rating}</li>`).join("");
+  const matches = result.matches.map((m) => `<li>${m.participants.join(" vs ")} (${m.type}) ${m.title_match ? "🏆" : ""} — ⭐ ${m.rating}</li>`).join("");
   const segments = result.segments.map((s) => `<li>${s.type}: ${s.participants.join(", ")} — ⭐ ${s.rating}</li>`).join("");
   container.classList.remove("muted");
   container.innerHTML = `
@@ -61,7 +66,7 @@ async function renderFeudOptions() {
     const label = document.createElement("span");
     label.textContent = `${option.rivalry_type}: ${option.names[0]} vs ${option.names[1]}`;
     const btn = document.createElement("button");
-    btn.textContent = "Start Feud";
+    btn.textContent = "Accept";
     btn.onclick = async () => {
       await postJSON("/api/create-rivalry", { rivalry_type: option.rivalry_type, ids: option.ids });
       await refresh();

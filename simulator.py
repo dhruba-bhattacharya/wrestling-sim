@@ -44,6 +44,7 @@ class Rivalry:
     level: float = 1.0
     weeks_not_featured: int = 0
     active: bool = True
+    cooldown: int = 0
 
 
 @dataclass
@@ -192,12 +193,20 @@ class WrestlingSimulator:
     def _rivalry_boost(self, a: str, b: str) -> float:
         return self.rivalry_history.get(frozenset((a, b)), 0) / 3
 
-    def rate_singles_match(self, a: Wrestler, b: Wrestler, rivalry_level: float, match_type: MatchType) -> float:
+    def rate_singles_match(
+        self,
+        a: Wrestler,
+        b: Wrestler,
+        rivalry_level: float,
+        match_type: MatchType,
+        title_match: bool,
+    ) -> float:
         p = (a.popularity + b.popularity) / 2
         s = (a.skills + b.skills) / 2
         r1 = (p + s) / 4
         rivalry = rivalry_level + self._rivalry_boost(a.id, b.id)
-        r2 = r1 + (rivalry / 6) + match_type.boost + self._alignment_bonus_singles(a, b)
+        title_boost = 0.5 if self.is_ppv(self.week) else (0.25 if title_match else 0)
+        r2 = r1 + (rivalry / 6) + match_type.boost + self._alignment_bonus_singles(a, b) + title_boost
         return floor_to_quarter(r2 + self.random.uniform(-0.5, 1))
 
     def _event_bonus_rating(self, rating: float) -> float:
@@ -226,6 +235,34 @@ class WrestlingSimulator:
             if self.random.uniform(0, 1) < 0.00075:
                 wrestler.injured_weeks = max(wrestler.injured_weeks, 1)
 
+    def _update_rivalries(self, featured_pairings: set[frozenset[str]]) -> None:
+        for rivalry in self.active_rivalries:
+            if rivalry.cooldown > 0:
+                rivalry.cooldown -= 1
+            pairing = frozenset(rivalry.rivals)
+            if not rivalry.active:
+                continue
+            if pairing in featured_pairings:
+                rivalry.weeks_not_featured = 0
+                roll = self.random.uniform(0, 100)
+                if roll > 95:
+                    rivalry.level = min(5, rivalry.level + 2)
+                elif roll > 15:
+                    rivalry.level = min(5, rivalry.level + 1)
+            else:
+                rivalry.weeks_not_featured += 1
+                if rivalry.weeks_not_featured >= 2:
+                    rivalry.level -= 0.5
+            if rivalry.level < 1:
+                rivalry.active = False
+                rivalry.cooldown = 26
+
+    def _weighted_pick(self, pool: List[Wrestler]) -> Wrestler:
+        weights = []
+        for wrestler in pool:
+            weights.append(max(0.1, wrestler.popularity * 0.7 + wrestler.stamina * 0.3))
+        return self.random.choices(pool, weights=weights, k=1)[0]
+
     def auto_book_weekly_show(self) -> dict:
         event_name = self.schedule_event_name(self.week)
         match_limit = 10 if self.is_ppv(self.week) else (6 if self.is_tv_special(self.week) else 5)
@@ -235,26 +272,32 @@ class WrestlingSimulator:
         roster.sort(key=lambda w: (w.popularity, w.stamina), reverse=True)
 
         featured: set[str] = set()
+        featured_pairings: set[frozenset[str]] = set()
         matches = []
         for _ in range(match_limit):
             pool = [w for w in roster if w.id not in featured]
             if len(pool) < 2:
                 break
-            a, b = pool[0], pool[1]
+            a = self._weighted_pick(pool)
+            remaining_pool = [w for w in pool if w.id != a.id]
+            b = self._weighted_pick(remaining_pool)
             feud = next((r for r in self.active_rivalries if set(r.rivals) == {a.id, b.id} and r.active), None)
             level = feud.level if feud else 0
             mtype = MATCH_TYPES["Singles Match"]
-            raw_rating = self.rate_singles_match(a, b, level, mtype)
+            title_match = any(a.id in title.wrestlers for title in self.championships) and a.division == b.division
+            raw_rating = self.rate_singles_match(a, b, level, mtype, title_match=title_match)
             final_rating = self._event_bonus_rating(raw_rating)
-            matches.append({"type": mtype.name, "participants": [a.name, b.name], "rating": round(final_rating, 2)})
+            matches.append(
+                {
+                    "type": mtype.name,
+                    "participants": [a.name, b.name],
+                    "rating": round(final_rating, 2),
+                    "title_match": title_match,
+                }
+            )
             self._apply_match_aftermath([a, b], mtype)
             featured.update({a.id, b.id})
-
-            if feud:
-                if self.random.uniform(0, 100) > 95:
-                    feud.level = min(5, feud.level + 2)
-                elif self.random.uniform(0, 100) > 15:
-                    feud.level = min(5, feud.level + 1)
+            featured_pairings.add(frozenset((a.id, b.id)))
 
         segments = []
         promo_pool = [w for w in roster if w.id not in featured]
@@ -269,7 +312,21 @@ class WrestlingSimulator:
             featured.add(wrestler.id)
 
         show_ratings = [x["rating"] for x in matches + segments]
-        show_rating = round(sum(show_ratings) / len(show_ratings), 2) if show_ratings else 0
+        if show_ratings:
+            opening = show_ratings[0]
+            main_event = show_ratings[-1]
+            middle = sum(show_ratings[1:-1])
+            show_rating = round((opening * 2 + middle + main_event * 2) / (len(show_ratings) + 2), 2)
+        else:
+            show_rating = 0
+
+        self._update_rivalries(featured_pairings)
+        if self.is_ppv(self.week):
+            for rivalry in self.active_rivalries:
+                if rivalry.active and frozenset(rivalry.rivals) in featured_pairings:
+                    rivalry.active = False
+                    rivalry.cooldown = 26
+
         if show_rating > 3.5:
             self.hype += 1
             self.viewers = self.random.randint(self.viewers, self.viewers + 50_000)
@@ -301,6 +358,7 @@ class WrestlingSimulator:
                 {
                     "rivalry_type": rivalry.rivalry_type,
                     "level": rivalry.level,
+                    "weeks_not_featured": rivalry.weeks_not_featured,
                     "rivals": [self.wrestlers[r].name for r in rivalry.rivals],
                 }
                 for rivalry in self.active_rivalries
