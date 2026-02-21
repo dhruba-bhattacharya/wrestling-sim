@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wrestler Sprite Maker</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="layout">
+      <section class="panel">
+        <h1>Wrestler Sprite Maker</h1>
+        <p class="subtle">Upload a wrestler photo to auto-generate a basic sprite, or create a random wrestler with trait controls.</p>
+
+        <div class="card">
+          <h2>1) Build from image</h2>
+          <label class="file-input">
+            <span>Choose wrestler image</span>
+            <input id="imageInput" type="file" accept="image/*" />
+          </label>
+          <div class="preview-wrap">
+            <canvas id="photoPreview" width="160" height="160"></canvas>
+          </div>
+          <label>Image detail / resemblance
+            <input id="imageDetailInput" type="range" min="1" max="10" value="8" />
+            <span id="imageDetailValue" class="subtle">8 / 10</span>
+          </label>
+          <button id="fromImageBtn" type="button" disabled>Generate sprite from image</button>
+        </div>
+
+        <div class="card">
+          <h2>2) Random generator with trait picks</h2>
+          <p class="subtle">Set a trait to a specific value or leave as <strong>Any</strong> for random.</p>
+          <div class="grid">
+            <label>Body Type
+              <select id="bodyTypePref"></select>
+            </label>
+            <label>Mask
+              <select id="maskPref"></select>
+            </label>
+            <label>Gear Style
+              <select id="gearPref"></select>
+            </label>
+            <label>Build
+              <select id="buildPref"></select>
+            </label>
+            <label>Hair Color
+              <select id="hairPref"></select>
+            </label>
+            <label>Skin Tone
+              <select id="skinPref"></select>
+            </label>
+            <label>Primary Gear Color
+              <select id="gearColorPref"></select>
+            </label>
+            <label>Accent Color
+              <select id="accentColorPref"></select>
+            </label>
+          </div>
+          <label>Complexity
+            <input id="complexityInput" type="range" min="1" max="10" value="4" />
+            <span id="complexityValue" class="subtle">4 / 10</span>
+          </label>
+          <button id="randomBtn" type="button">Generate random sprite</button>
+        </div>
+      </section>
+
+      <section class="panel output-panel">
+        <h2>Sprite Output</h2>
+        <canvas id="spriteCanvas" width="256" height="384" aria-label="Generated wrestler sprite"></canvas>
+        <div class="complexity-meter" aria-live="polite">
+          <div class="meter-head">
+            <span>Sprite Complexity</span>
+            <strong id="complexityLabel">Basic</strong>
+          </div>
+          <progress id="complexityMeter" max="100" value="0"></progress>
+        </div>
+        <dl id="traitList"></dl>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
