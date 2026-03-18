@@ -12,13 +12,20 @@
       <div class="arena-backdrop" aria-hidden="true">
         <span class="arena-glow"></span>
         <span class="arena-grid"></span>
+        <span class="scanlines"></span>
       </div>
+
+      <header class="broadcast-bar">
+        <div class="broadcast-chip live">LIVE</div>
+        <div class="broadcast-title">WORLD WRESTLING DRAFT SPECIAL</div>
+        <div class="broadcast-chip retro">RETRO FEED</div>
+      </header>
 
       <div class="draft-hero">
         <div>
-          <p class="tiny">Franchise Mode • Live War Room</p>
+          <p class="tiny">Franchise Mode • Televised Special</p>
           <h1 class="draft-logo"><span>Dynasty</span> Draft Night</h1>
-          <p class="draft-subtitle">Build your promotion, scout every free agent, manage your budget, and answer every CPU counter with a louder superstar entrance.</p>
+          <p class="draft-subtitle">A retro-styled TV draft where every selection hits the board, the stage, and your roster all at once.</p>
         </div>
         <div class="draft-controls">
           <button id="reset-draft-btn" class="icon-btn" title="Reset draft">↺</button>
@@ -55,8 +62,8 @@
         <div class="draft-board-wrap">
           <div class="section-heading-row">
             <div>
-              <div class="slot-title">Available Talent</div>
-              <p class="board-caption">Select one of 20 wrestlers. The CPU instantly responds with its own cinematic counter-pick.</p>
+              <div class="slot-title">Big Board</div>
+              <p class="board-caption">20 names. One TV stage. The CPU answers every headline pick.</p>
             </div>
             <div id="pool-status" class="pool-status">20 on the board</div>
           </div>
@@ -64,23 +71,23 @@
         </div>
 
         <aside class="prospect-panel">
-          <div class="slot-title">Prospect Spotlight</div>
+          <div class="slot-title">Broadcast Spotlight</div>
           <div id="prospect-card" class="prospect-card"></div>
         </aside>
       </section>
 
       <section class="draft-bottom-grid">
         <div>
-          <div class="section-heading-row">
+          <div class="section-heading-row compact-heading">
             <div class="slot-title">Your Stable</div>
-            <span class="muted">Animated confirmations slam into your roster.</span>
+            <span class="muted">Your draft desk.</span>
           </div>
           <div id="player-roster" class="roster-list"></div>
         </div>
         <div>
-          <div class="section-heading-row">
+          <div class="section-heading-row compact-heading">
             <div class="slot-title">CPU Counter Draft</div>
-            <span class="muted">The rival promotion answers every move.</span>
+            <span class="muted">Rival network response.</span>
           </div>
           <div id="cpu-roster" class="roster-list"></div>
         </div>
@@ -100,11 +107,19 @@
   </main>
 
   <div id="announcement-overlay" class="announcement-overlay" aria-live="polite" aria-hidden="true">
+    <div class="announcement-flash flash-a" aria-hidden="true"></div>
+    <div class="announcement-flash flash-b" aria-hidden="true"></div>
     <div class="announcement-burst" aria-hidden="true"></div>
+    <div class="announcement-stamp" aria-hidden="true">DRAFTED</div>
     <div class="announcement-card">
       <p id="announcement-label" class="tiny">Draft pick submitted</p>
       <h2 id="announcement-name">Rex Rampage</h2>
       <p id="announcement-meta" class="announcement-meta">Heavyweight • $21</p>
+    </div>
+    <div class="ticker-lower-third">
+      <span class="ticker-label">Breaking Pick</span>
+      <strong id="ticker-name">Rex Rampage</strong>
+      <span id="ticker-side">joins your roster</span>
     </div>
   </div>
 

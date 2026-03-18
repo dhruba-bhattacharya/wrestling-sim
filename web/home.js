@@ -97,12 +97,14 @@ function announcePick(side, wrestler, subtitle) {
   document.getElementById("announcement-label").textContent = side === "player" ? "Your pick is official" : "CPU counter-pick";
   document.getElementById("announcement-name").textContent = wrestler.name;
   document.getElementById("announcement-meta").textContent = subtitle;
+  document.getElementById("ticker-name").textContent = wrestler.name;
+  document.getElementById("ticker-side").textContent = side === "player" ? "joins your roster" : "joins the CPU roster";
 
   clearTimeout(announcementTimer);
   announcementTimer = window.setTimeout(() => {
     overlay.classList.remove("show", "player", "cpu");
     overlay.setAttribute("aria-hidden", "true");
-  }, 1800);
+  }, 1900);
 }
 
 function renderBoard() {
