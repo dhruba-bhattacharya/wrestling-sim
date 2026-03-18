@@ -272,8 +272,8 @@ body.draft-page {
   background: linear-gradient(180deg, rgba(17, 21, 32, 0.99), rgba(10, 12, 20, 0.99));
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.4);
   display: grid;
-  grid-template-rows: auto auto auto 1fr auto auto;
-  gap: 10px;
+  grid-template-rows: auto auto auto minmax(0, 1fr) auto auto;
+  gap: 8px;
   overflow: hidden;
   padding: 16px 18px 14px;
 }
@@ -460,7 +460,7 @@ body.draft-page {
 .draft-main-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.62fr) minmax(312px, 0.78fr);
-  gap: 12px;
+  gap: 8px;
   min-height: 0;
 }
 
@@ -471,8 +471,16 @@ body.draft-page {
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(12, 15, 24, 0.9);
   border-radius: 14px;
-  padding: 12px;
+  padding: 9px;
   min-height: 0;
+}
+
+.draft-board-wrap,
+.prospect-panel,
+.draft-bottom-grid > div,
+.draft-footer-row {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
 }
 
 .section-heading-row {
@@ -501,7 +509,9 @@ body.draft-page {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
-  margin-top: 10px;
+  margin-top: 8px;
+  overflow: auto;
+  padding-right: 4px;
 }
 
 .draft-pick-card {
@@ -513,7 +523,7 @@ body.draft-page {
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: linear-gradient(180deg, rgba(26, 30, 42, 0.95), rgba(14, 17, 26, 0.95));
-  min-height: 104px;
+  min-height: 88px;
   transition: transform 160ms ease, border-color 160ms ease, opacity 160ms ease;
   animation: cardRise 280ms ease both;
   overflow: hidden;
@@ -570,8 +580,11 @@ body.draft-page {
 
 .prospect-card {
   display: grid;
-  gap: 10px;
+  gap: 8px;
   min-height: 0;
+  grid-template-rows: 154px auto auto auto auto auto;
+  overflow: auto;
+  padding-right: 2px;
 }
 
 .prospect-visual {
@@ -579,7 +592,7 @@ body.draft-page {
   border-radius: 14px;
   overflow: hidden;
   background: linear-gradient(135deg, var(--accent-a), var(--accent-b));
-  min-height: 190px;
+  min-height: 154px;
 }
 
 .prospect-visual::after {
@@ -623,8 +636,8 @@ body.draft-page {
   align-items: flex-start;
 }
 
-.prospect-header h2 { margin: 4px 0; font-size: 1.5rem; }
-.prospect-price { font-size: 1.55rem; font-weight: 800; color: #ffd166; }
+.prospect-header h2 { margin: 4px 0; font-size: 1.25rem; }
+.prospect-price { font-size: 1.3rem; font-weight: 800; color: #ffd166; }
 .prospect-quote { margin: 0; color: #dbe4f6; font-style: italic; font-size: 0.85rem; }
 
 .attribute-grid {
@@ -687,6 +700,8 @@ body.draft-page {
   display: grid;
   gap: 8px;
   min-height: 0;
+  overflow: auto;
+  padding-right: 2px;
 }
 
 .roster-card {
@@ -717,7 +732,7 @@ body.draft-page {
 .draft-log,
 .pick-history {
   margin-top: 8px;
-  max-height: 118px;
+  max-height: none;
   overflow: auto;
 }
 
@@ -813,7 +828,7 @@ body.draft-page {
 
 .announcement-card {
   min-width: min(520px, calc(100vw - 40px));
-  padding: 22px 26px;
+  padding: 18px 22px;
   border-radius: 20px;
   border: 2px solid rgba(255,255,255,0.16);
   background: linear-gradient(135deg, rgba(12, 16, 25, 0.97), rgba(22, 18, 34, 0.95));
@@ -846,7 +861,7 @@ body.draft-page {
 .announcement-card h2 {
   position: relative;
   margin: 10px 0 8px;
-  font-size: clamp(2rem, 4vw, 3.1rem);
+  font-size: clamp(1.7rem, 3.2vw, 2.6rem);
 }
 
 .announcement-meta { position: relative; margin: 0; color: #d1daf1; }
