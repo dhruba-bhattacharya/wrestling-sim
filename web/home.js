@@ -40,6 +40,7 @@ function createInitialState() {
 
 const state = createInitialState();
 let announcementTimer = null;
+let draftedCardId = null;
 
 function createPortrait(wrestler) {
   const initials = wrestler.name.split(" ").map((part) => part[0]).join("").slice(0, 2);
@@ -111,9 +112,13 @@ function renderBoard() {
   state.available.forEach((wrestler, index) => {
     const card = document.createElement("button");
     card.className = "draft-pick-card";
+    card.dataset.wrestlerId = String(wrestler.id);
     card.style.animationDelay = `${index * 24}ms`;
     if (wrestler.id === state.selectedId) {
       card.classList.add("selected");
+    }
+    if (wrestler.id === draftedCardId) {
+      card.classList.add("drafted-away");
     }
     if (state.draftEnded) {
       card.disabled = true;
@@ -291,6 +296,7 @@ function maybeEndDraft(reason) {
 }
 
 function processPick(side, wrestler, roster, budgetImpact = 0) {
+  draftedCardId = wrestler.id;
   removeFromAvailable(wrestler.id);
   roster.push(wrestler);
   state.budget -= budgetImpact;
@@ -300,6 +306,10 @@ function processPick(side, wrestler, roster, budgetImpact = 0) {
   pushLog(actionText);
   recordHistory(side, wrestler, actionText);
   announcePick(side, wrestler, `${wrestler.weightClass} • ${wrestler.style} • ${currency(wrestler.cost)}`);
+  window.setTimeout(() => {
+    draftedCardId = null;
+    render();
+  }, 520);
 }
 
 function makePlayerPick(id) {
@@ -358,6 +368,7 @@ function endDraft() {
 
 function resetDraft() {
   Object.assign(state, createInitialState());
+  draftedCardId = null;
   pushLog("Commissioner: Draft board has been reset for a fresh run.");
   clearTimeout(announcementTimer);
   document.getElementById("announcement-overlay").classList.remove("show", "player", "cpu");

@@ -10,10 +10,8 @@
   <main class="draft-shell">
     <section class="panel draft-panel enter-anim">
       <div class="arena-backdrop" aria-hidden="true">
-        <span class="light-beam beam-a"></span>
-        <span class="light-beam beam-b"></span>
-        <span class="light-beam beam-c"></span>
-        <span class="ring-glow"></span>
+        <span class="arena-glow"></span>
+        <span class="arena-grid"></span>
       </div>
 
       <div class="draft-hero">
@@ -23,8 +21,8 @@
           <p class="draft-subtitle">Build your promotion, scout every free agent, manage your budget, and answer every CPU counter with a louder superstar entrance.</p>
         </div>
         <div class="draft-controls">
-          <button id="auto-pick-btn" class="icon-btn" title="Computer pick">⚡</button>
           <button id="reset-draft-btn" class="icon-btn" title="Reset draft">↺</button>
+          <button id="auto-pick-btn" class="icon-btn" title="Computer pick">⚡</button>
           <button id="end-draft-btn" class="primary-btn">END DRAFT</button>
         </div>
       </div>
@@ -102,6 +100,7 @@
   </main>
 
   <div id="announcement-overlay" class="announcement-overlay" aria-live="polite" aria-hidden="true">
+    <div class="announcement-burst" aria-hidden="true"></div>
     <div class="announcement-card">
       <p id="announcement-label" class="tiny">Draft pick submitted</p>
       <h2 id="announcement-name">Rex Rampage</h2>
