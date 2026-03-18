@@ -3,23 +3,110 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ultimate Wrestling Simulator</title>
+  <title>Ultimate Wrestling Simulator - Draft War Room</title>
   <link rel="stylesheet" href="/styles.css" />
 </head>
-<body class="home-page">
-  <main class="home-shell">
-    <section id="landing-card" class="panel splash-panel enter-anim">
-      <div class="brand-wrap">
-        <p class="tiny">Ultimate Wrestling Experience</p>
-        <h1 class="logo"><span>SUPER</span>BOOKED</h1>
-        <p class="subtitle">WRESTLING BOOKING SIMULATOR</p>
+<body class="home-page draft-page">
+  <main class="draft-shell">
+    <section class="panel draft-panel enter-anim">
+      <div class="arena-backdrop" aria-hidden="true">
+        <span class="arena-glow"></span>
+        <span class="arena-grid"></span>
       </div>
-      <div class="control-row">
-        <button id="enter-btn" class="primary-btn">ENTER BOOKER MODE</button>
+
+      <div class="draft-hero">
+        <div>
+          <p class="tiny">Franchise Mode • Live War Room</p>
+          <h1 class="draft-logo"><span>Dynasty</span> Draft Night</h1>
+          <p class="draft-subtitle">Build your promotion, scout every free agent, manage your budget, and answer every CPU counter with a louder superstar entrance.</p>
+        </div>
+        <div class="draft-controls">
+          <button id="reset-draft-btn" class="icon-btn" title="Reset draft">↺</button>
+          <button id="auto-pick-btn" class="icon-btn" title="Computer pick">⚡</button>
+          <button id="end-draft-btn" class="primary-btn">END DRAFT</button>
+        </div>
       </div>
-      <p class="version">v0.3</p>
+
+      <section class="draft-scoreboard">
+        <article class="score-card budget-card pulse-card">
+          <span class="score-label">Budget Remaining</span>
+          <strong id="budget-remaining">$120</strong>
+          <small id="budget-spent">Spent: $0</small>
+        </article>
+        <article class="score-card player-card">
+          <span class="score-label">Your Roster</span>
+          <strong id="player-count">0 Picks</strong>
+          <small id="player-total-cost">Total Cost: $0</small>
+        </article>
+        <article class="score-card cpu-card">
+          <span class="score-label">CPU Roster</span>
+          <strong id="cpu-count">0 Picks</strong>
+          <small id="cpu-total-cost">Total Cost: $0</small>
+        </article>
+        <article class="score-card round-card turn-card">
+          <span class="score-label">Draft Flow</span>
+          <strong id="round-indicator">Round 1</strong>
+          <small id="turn-indicator">Your pick is live</small>
+          <div class="turn-meter"><span id="turn-meter-fill"></span></div>
+        </article>
+      </section>
+
+      <section class="draft-main-grid">
+        <div class="draft-board-wrap">
+          <div class="section-heading-row">
+            <div>
+              <div class="slot-title">Available Talent</div>
+              <p class="board-caption">Select one of 20 wrestlers. The CPU instantly responds with its own cinematic counter-pick.</p>
+            </div>
+            <div id="pool-status" class="pool-status">20 on the board</div>
+          </div>
+          <div id="draft-board" class="draft-board"></div>
+        </div>
+
+        <aside class="prospect-panel">
+          <div class="slot-title">Prospect Spotlight</div>
+          <div id="prospect-card" class="prospect-card"></div>
+        </aside>
+      </section>
+
+      <section class="draft-bottom-grid">
+        <div>
+          <div class="section-heading-row">
+            <div class="slot-title">Your Stable</div>
+            <span class="muted">Animated confirmations slam into your roster.</span>
+          </div>
+          <div id="player-roster" class="roster-list"></div>
+        </div>
+        <div>
+          <div class="section-heading-row">
+            <div class="slot-title">CPU Counter Draft</div>
+            <span class="muted">The rival promotion answers every move.</span>
+          </div>
+          <div id="cpu-roster" class="roster-list"></div>
+        </div>
+      </section>
+
+      <section class="draft-insights-grid">
+        <div class="draft-footer-row">
+          <div class="slot-title">Commissioner Feed</div>
+          <div id="draft-log" class="draft-log"></div>
+        </div>
+        <div class="draft-footer-row history-panel">
+          <div class="slot-title">Pick History</div>
+          <div id="pick-history" class="pick-history"></div>
+        </div>
+      </section>
     </section>
   </main>
+
+  <div id="announcement-overlay" class="announcement-overlay" aria-live="polite" aria-hidden="true">
+    <div class="announcement-burst" aria-hidden="true"></div>
+    <div class="announcement-card">
+      <p id="announcement-label" class="tiny">Draft pick submitted</p>
+      <h2 id="announcement-name">Rex Rampage</h2>
+      <p id="announcement-meta" class="announcement-meta">Heavyweight • $21</p>
+    </div>
+  </div>
 
   <script src="/home.js"></script>
 </body>
